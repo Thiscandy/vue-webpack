@@ -1,0 +1,30 @@
+webpack 4 打包
+
+1. 是 "开发模式" 还是 "生产模式" 错误
+
+  在 package.json 里面命令配置加上 --mode 生产模式
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js --mode production"
+  },
+
+2. vue 没有相应的插件使用VUE加载器。确保配置包含 VueLoaderPlugin 错误
+
+  因为 vue-loader@15.*之后除了必须带有VueLoaderPlugin 之外，还需另外单独配置css-loader。
+  所以在 webpack.config.js 里加上
+  
+  const VueLoaderPlugin = require('vue-loader/lib/plugin')
+  module.exports = {
+    module: {
+      rules: [
+        {
+          test: /\.css$/,
+          use: ['css-loader']
+        }
+      ]
+    },
+    plugins: [
+      new VueLoaderPlugin()
+    ]
+  }
